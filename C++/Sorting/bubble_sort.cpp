@@ -2,7 +2,7 @@
     bubble_sort.cpp
     Purpose: Apply comparison-based sorting algorithm to sort numeric elements
              given through the standard input.
-    Description: repeatedly steps through the list to be sorted, compares each pair of adjacent items and
+    Description: Repeatedly steps through the list to be sorted, compares each pair of adjacent items and
                  swaps them if they are in the wrong order. The pass through the list is repeated until no 
                  swaps are needed, which indicates that the list is sorted. [https://en.wikipedia.org/wiki/Bubble_sort].
     Complexity: O(n^2).
