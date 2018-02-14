@@ -1,0 +1,62 @@
+/**
+    merge_sort.cpp
+    Purpose: Apply comparison-based sorting algorithm to sort numeric elements
+             given through the standard input.
+    Description: 1. Divide the unsorted list into n sublists, each containing 1 element (a list of 1 element is considered sorted).
+                 2. Repeatedly merge sublists to produce new sorted sublists until there is only 1 sublist remaining. [https://en.wikipedia.org/wiki/Merge_sort].
+    Complexity: O(n logn).
+
+   @author Miguel Concha Vázquez mconcha@ciencias.unam.mx
+   @version 1.0 09/02/18.
+*/
+
+#include <cstdio>
+using namespace std;
+
+
+/**
+    Prints the numeric values in an array.
+    
+    @param The array to be printed.
+    @param The length of the array.
+*/
+void print_array(int arr[], int size) {
+  for(int i = 0; i < size; i++) {
+    printf("%d ", arr[i]);
+  }
+}
+
+void merge(int arr[], int left, int half, int right) {
+
+  
+
+}
+
+
+void mergeSort(int arr[], int left, int right) {
+  if(left < right) {
+    int half = left + (right-1) / 2;
+    mergeSort(arr, left, half);
+    mergeSort(arr, half+1, right);
+    merge(arr, left, half, right);
+  }
+}
+
+int main() {
+  int n;
+  printf("%s", "Number of elements to be sorted: ");
+  scanf("%d", &n);
+  int number_array[n];
+  printf("%s", "Space-separated numbers to be sorted: ");
+  for(int i = 0; i < n; i++) { //Storing the input values in the array.
+    scanf("%d", &number_array[i]);
+  }
+  int half = n/2;
+  
+
+  
+  printf("%s\n", "Sorted input numbers: ");
+  print_array(number_array, n); //Printing the sorted array.
+  printf("\n");  
+  return 0;
+}
