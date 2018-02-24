@@ -1,0 +1,7 @@
+graph = dict{}
+
+if '__name__' == '__main__':
+    in = input()
+    in.split(" ")
+    num_nodes = int(in[0])
+    num_edges = int(in[1])
