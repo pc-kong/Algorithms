@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	int t;
+	scanf("%d", &t);
+	long long a, b;
+	a = 0;
+	b = 0;
+	while(t--){
+		cin >> a >> b;
+		if(a < b)
+			cout << "<" << endl;
+		else if (a > b)
+			cout << ">" << endl;
+		else
+			cout << "=" << endl;
+	}
+	return 0;
+}
