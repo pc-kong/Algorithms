@@ -27,6 +27,14 @@ class BinarySearchTree:
         self.root = root
 
     def insert(self, element):
+        """
+            Insert an element in the Binary Search Tree
+
+            Parameters
+            ----------
+            element : any type with comparable function
+                New element to insert in the Tree
+        """
         new_node = BinarySearchTreeNode(element)
 
         # When there is no root in the tree
@@ -51,3 +59,29 @@ class BinarySearchTree:
         else:
             parent_node.setRight(new_node)
 
+    def search(self, element):
+        """
+            Search an element in the Binary Search Tree.
+
+            Parameters
+            ----------
+            element : any type with comparable function
+                New element to insert in the Tree.
+
+            Returns
+            -------
+            BinarySearchTreeNode if there is the element in the Tree, None
+            otherwise.
+        """
+        actual_node = self.root
+        
+        while actual_node != None:
+            if actual_node.getElement() == element:
+                return actual_node
+
+            if actual_node.getElement() < element:
+                actual_node = actual_node.getLeft()
+            else:
+                actual_node = actual_node.getRight()
+
+        return None
