@@ -179,10 +179,6 @@ class BinarySearchTree:
             Parameters
             ----------
             element : element to remove in the tree
-
-            Returns
-            -------
-            element : element removed
         """
         to_remove = self.search(element)
         
