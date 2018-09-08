@@ -48,15 +48,23 @@ class BinarySearchTreeNode:
         
     def __str__(self):
         """
-            Returns a String representation of this node
+            Returns a String representation of this node.
         """
         return 'BinarySearchTreeNode(' + str(self.element) + ')'
 
     def __repr__(self):
         """
-            Returns a String representation of this node
+            Returns a String representation of this node.
         """
         return str(self)
+
+    def __eq__(self, node):
+        """
+            Returns a Boolean depending if this and other node are equal.
+        """
+        if node == None or self.element != node.element:
+            return False
+        return self.left == node.left and self.right == node.right
 
     # All getters and setters
     def getElement(self):
@@ -156,7 +164,7 @@ class BinarySearchTreeNode:
             Boolean
                 True if this node has a parent, False otherwise
         """
-        return self.parent == None
+        return self.parent != None
 
     def hasLeft(self):
         """
@@ -167,7 +175,7 @@ class BinarySearchTreeNode:
             Boolean
                 True if this node has a left node, False otherwise
         """
-        return self.left == None
+        return self.left != None
 
     def hasRight(self):
         """
@@ -178,5 +186,33 @@ class BinarySearchTreeNode:
             Boolean
                 True if this node has a right node, False otherwise
         """
-        return self.right == None
+        return self.right != None
+
+    def isLeftChild(self):
+        """
+            Check if this node is a left child.
+
+            Returns
+            -------
+            Boolean
+                True if this node is a Left child, False otherwise
+        """
+        if self.parent == None:
+            return False
+
+        return self.parent.left == self
+
+    def isRightChild(self):
+        """
+            Check if this node is a right child.
+
+            Returns
+            -------
+            Boolean
+                True if this node is a right child, False otherwise
+        """
+        if self.parent == None:
+            return False
+
+        return self.parent.right == self
 

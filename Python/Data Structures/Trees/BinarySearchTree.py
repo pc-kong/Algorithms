@@ -1,6 +1,6 @@
 """ Binary Search Tree """
 
-from . import BinarySearchTreeNode
+from binarySearchTreeNode import BinarySearchTreeNode
 
 class BinarySearchTree:
     """
@@ -47,14 +47,14 @@ class BinarySearchTree:
         actual_node = self.root
         while actual_node != None:
             parent_node = actual_node
-            if actual_node.getElement() <= element:
+            if element <= actual_node.getElement():
                 actual_node = actual_node.getLeft()
             else:
                 actual_node = actual_node.getRight()
 
         # We are already in a Leaf
         new_node.setParent(parent_node)
-        if parent_node.getElement() <= element:
+        if  element <= parent_node.getElement():
             parent_node.setLeft(new_node)
         else:
             parent_node.setRight(new_node)
@@ -70,7 +70,7 @@ class BinarySearchTree:
 
             Returns
             -------
-            BinarySearchTreeNode if there is the element in the Tree, None
+            BinarySearchTreeNode if there is the searched element in the Tree, None
             otherwise.
         """
         actual_node = self.root
@@ -79,9 +79,125 @@ class BinarySearchTree:
             if actual_node.getElement() == element:
                 return actual_node
 
-            if actual_node.getElement() < element:
+            if element < actual_node.getElement():
                 actual_node = actual_node.getLeft()
             else:
                 actual_node = actual_node.getRight()
 
         return None
+
+    def maxInSubTree(self, node):
+        """
+            Gets the max element in the node subtree
+
+            Parameters
+            ----------
+            node : BinarySearchTreeNode
+                Root node of the subtree
+
+            Returns
+            -------
+            BinarySearchTreeNode if the node is not None, None otherwise.
+        """
+        ni = node
+        while ni.hasRight():
+            ni = ni.getRight()
+
+        return ni
+
+    def _removeLeaf(self, leaf):
+        """
+            Private. Removes a Leaf
+
+            Parameters
+            ----------
+            leaf : Leaf to be removed
+
+            Returns
+            -------
+            element : element of the Leaf
+        """
+        if leaf.parent == None:
+            self.root = None
+        elif leaf.isLeftChild():
+            leaf.getParent().left = None
+        else:
+            leaf.getParent().right = None
+
+        return leaf.getElement()
+
+    def _removeWithoutLeft(self, node):
+        """
+            Private. Removes a node without left child.
+
+            Parameters
+            ----------
+            node : Node to be removed
+
+            Returns
+            -------
+            element : element of the Node removed
+        """
+        right = node.getRight()
+        if node.getParent() == None:
+            self.root = right
+        elif node.isLeftChild():
+            node.getParent().setLeft(right)
+        else:
+            node.getParent().setRight(right)
+        right.setParent(node.getParent())
+
+        return node.getElement()
+
+    def _removeWithoutRight(self, node):
+        """
+            Private. Removes a node without right child.
+
+            Parameters
+            ----------
+            node : Node to be removed
+
+            Returns
+            -------
+            element : element of the Node removed
+        """
+        left = node.getLeft()
+        if node.getParent() == None:
+            self.root = left
+        elif node.isLeftChild():
+            node.getParent().setLeft(left) 
+        else:
+            node.getParent().setRight(left)
+        left.setParent(node.getParent())
+
+        return node.getElement()
+
+    def remove(self, element):
+        """
+            Removes the element sent.
+
+            Parameters
+            ----------
+            element : element to remove in the tree
+
+            Returns
+            -------
+            element : element removed
+        """
+        to_remove = self.search(element)
+        
+        if to_remove == None:
+            return None
+
+        if to_remove.hasLeft():
+            vi = to_remove
+            to_remove = self.maxInSubTree(to_remove.getLeft())
+            vi.setElement(to_remove.getElement())
+
+        if not to_remove.hasLeft() and not to_remove.hasRight():
+            self._removeLeaf(to_remove)
+        elif not to_remove.hasLeft():
+            self._removeWithoutLeft(to_remove)
+        else:
+            self._removeWithoutRight(to_remove)
+
