@@ -13,6 +13,11 @@ class BinarySearchTree:
 
         Methods
         -------
+        insert(element)
+        search(element)
+        remove(element)
+        rightRotation(node)
+        leftRotation(node)
     """
 
     def __init__(self, root=None):
@@ -196,4 +201,46 @@ class BinarySearchTree:
             self._removeWithoutLeft(to_remove)
         else:
             self._removeWithoutRight(to_remove)
+
+    def rightRotation(self, node):
+        """
+            The subtree of the node to the right
+
+            Parameters
+            ----------
+            node : Binary Search Tree Node
+        """
+        if not node.hasLeft():
+            return None
+
+        left = node.getLeft()
+        if node.getParent() == None:
+            self.root = left
+
+        left.setParent(node.parent)
+        node.setLeft(left.getRight()) 
+        left.getRight().setParent(node)
+        left.setRight(node)
+        node.setParent(left)
+
+    def leftRotation(self, node):
+        """
+            The subtree of the node to the left
+
+            Parameters
+            ----------
+            node : Binary Search Tree Node
+        """
+        if not node.hasRight():
+            return None
+
+        right = node.getRight()
+        if node.getParent() == None:
+            self.root = right
+
+        right.setParent(node.parent)
+        node.setRight(right.getLeft()) 
+        right.getLeft().setParent(node)
+        right.setLeft(node)
+        node.setParent(right)
 
