@@ -10,6 +10,8 @@ class BinarySearchTree:
         ----------
         root=None: BinarySearchTreeNode
             Root Node
+        last_node_added: BinarySearchTreeNode
+            Last node added in the Tree
 
         Methods
         -------
@@ -26,12 +28,16 @@ class BinarySearchTree:
             
             Parameters
             ----------
-            root=None: BinarySearchTreeNode
-                Root Node
+            root=None: element
+                Root element
         """
-        self.root = root
+        if root != None:
+            self.root = BinarySearchTreeNode(root)
+        else:
+            self.root = None
+        self.last_node_added = None
 
-    def insert(self, element):
+    def insert(self, element, nodeClass=None):
         """
             Insert an element in the Binary Search Tree
 
@@ -40,11 +46,15 @@ class BinarySearchTree:
             element : any type with comparable function
                 New element to insert in the Tree
         """
-        new_node = BinarySearchTreeNode(element)
+        if nodeClass == None:
+            new_node = BinarySearchTreeNode(element)
+        else:
+            new_node = nodeClass(element)
 
         # When there is no root in the tree
         if self.root == None:
             self.root = new_node
+            self.last_node_added = new_node
             return None
 
         # Go to a leaf
@@ -63,6 +73,8 @@ class BinarySearchTree:
             parent_node.setLeft(new_node)
         else:
             parent_node.setRight(new_node)
+
+        self.last_node_added = new_node
 
     def search(self, element):
         """
@@ -110,7 +122,7 @@ class BinarySearchTree:
 
         return ni
 
-    def _removeLeaf(self, leaf):
+    def __removeLeaf(self, leaf):
         """
             Private. Removes a Leaf
 
@@ -131,7 +143,7 @@ class BinarySearchTree:
 
         return leaf.getElement()
 
-    def _removeWithoutLeft(self, node):
+    def __removeWithoutLeft(self, node):
         """
             Private. Removes a node without left child.
 
@@ -154,7 +166,7 @@ class BinarySearchTree:
 
         return node.getElement()
 
-    def _removeWithoutRight(self, node):
+    def __removeWithoutRight(self, node):
         """
             Private. Removes a node without right child.
 
@@ -196,11 +208,11 @@ class BinarySearchTree:
             vi.setElement(to_remove.getElement())
 
         if not to_remove.hasLeft() and not to_remove.hasRight():
-            self._removeLeaf(to_remove)
+            self.__removeLeaf(to_remove)
         elif not to_remove.hasLeft():
-            self._removeWithoutLeft(to_remove)
+            self.__removeWithoutLeft(to_remove)
         else:
-            self._removeWithoutRight(to_remove)
+            self.__removeWithoutRight(to_remove)
 
     def rightRotation(self, node):
         """
@@ -210,16 +222,25 @@ class BinarySearchTree:
             ----------
             node : Binary Search Tree Node
         """
+        if node == None:
+            return None
+
         if not node.hasLeft():
             return None
 
         left = node.getLeft()
         if node.getParent() == None:
             self.root = left
+        else:
+            if node.isLeftChild():
+                node.getParent().setLeft(left)
+            else:
+                node.getParent().setRight(left)
 
         left.setParent(node.parent)
         node.setLeft(left.getRight()) 
-        left.getRight().setParent(node)
+        if left.hasRight():
+            left.getRight().setParent(node)
         left.setRight(node)
         node.setParent(left)
 
@@ -231,16 +252,26 @@ class BinarySearchTree:
             ----------
             node : Binary Search Tree Node
         """
+        if node == None:
+            return None
+
         if not node.hasRight():
             return None
 
         right = node.getRight()
+
         if node.getParent() == None:
             self.root = right
+        else:
+            if node.isLeftChild():
+                node.getParent().setLeft(right)
+            else:
+                node.getParent().setRight(right)
 
         right.setParent(node.parent)
         node.setRight(right.getLeft()) 
-        right.getLeft().setParent(node)
+        if left.hasLeft():
+            right.getLeft().setParent(node)
         right.setLeft(node)
         node.setParent(right)
 
