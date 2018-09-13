@@ -82,13 +82,13 @@ class AVLTree(BinarySearchTree):
             return self.height == node.height and self.left == node.left and (
                 self.right == node.right)
 
-        def getHeight(self):
+        def get_height(self):
             """
                 Gets the node height
             """
             return self.height
 
-        def calculateHeight(self):
+        def calculate_height(self):
             """
                 Calculates the Node height
             """
@@ -101,7 +101,7 @@ class AVLTree(BinarySearchTree):
             else:
                 self.height = max(self.left.height, self.right.height) + 1
 
-        def calculateBalance(self):
+        def calculate_balance(self):
             """
                 Calculates the balance between the left and right childs
             """
@@ -137,25 +137,25 @@ class AVLTree(BinarySearchTree):
         """
         if node == None:
             return None
-        node.calculateHeight()
+        node.calculate_height()
 
-        if node.calculateBalance() == 2:
-            if node.left.calculateBalance() == -1:
+        if node.calculate_balance() == 2:
+            if node.left.calculate_balance() == -1:
                 left = node.left
-                super()._leftRotation(left)
-                left.calculateHeight()
-                left.parent.calculateHeight()
-            super()._rightRotation(node)
-            node.calculateHeight()
+                super()._left_rotation(left)
+                left.calculate_height()
+                left.parent.calculate_height()
+            super()._right_rotation(node)
+            node.calculate_height()
             return self.rebalance(node.parent.parent)
-        if node.calculateBalance() == -2:
-            if node.right.calculateBalance() == 1:
+        if node.calculate_balance() == -2:
+            if node.right.calculate_balance() == 1:
                 right = node.right
-                super()._rightRotation(right)
-                right.calculateHeight()
-                right.parent.calculateHeight()
-            super()._leftRotation(node)
-            node.calculateHeight()
+                super()._right_rotation(right)
+                right.calculate_height()
+                right.parent.calculate_height()
+            super()._left_rotation(node)
+            node.calculate_height()
             return self.rebalance(node.parent.parent)
         
         return self.rebalance(node.parent)
@@ -169,7 +169,7 @@ class AVLTree(BinarySearchTree):
             ----------
             element: any type with a comparable function
         """
-        super().insert(element, nodeClass=self.AVLNode)
+        super().insert(element, node_class=self.AVLNode)
         new_node = self.last_node_added
         self.rebalance(new_node)
 
@@ -204,17 +204,17 @@ class AVLTree(BinarySearchTree):
         if to_remove == None:
             return None
 
-        if to_remove.hasLeft():
+        if to_remove.has_left():
             vi = to_remove
-            to_remove = self.maxInSubTree(to_remove.getLeft())
-            vi.setElement(to_remove.getElement())
+            to_remove = self.max_in_sub_tree(to_remove.get_left())
+            vi.set_element(to_remove.get_element())
 
-        if not to_remove.hasLeft() and not to_remove.hasRight():
-            super()._removeLeaf(to_remove)
-        elif not to_remove.hasLeft():
-            super()._removeWithoutLeft(to_remove)
+        if not to_remove.has_left() and not to_remove.has_right():
+            super()._remove_leaf(to_remove)
+        elif not to_remove.has_left():
+            super()._remove_without_left(to_remove)
         else:
-            super()._removeWithoutRight(to_remove)
+            super()._remove_without_right(to_remove)
 
         self.length -= 1
 
