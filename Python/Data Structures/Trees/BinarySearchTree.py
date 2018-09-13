@@ -10,28 +10,39 @@ class BinarySearchTree:
         ----------
         root=None: BinarySearchTreeNode
             Root Node
+        last_node_added: BinarySearchTreeNode
+            Last node added in the Tree
+        lenght: int
+            Number of elements in the tree.
 
         Methods
         -------
         insert(element)
         search(element)
         remove(element)
-        rightRotation(node)
-        leftRotation(node)
     """
 
-    def __init__(self, root=None):
+    def __init__(self, root=None, node_class=None):
         """
             Binary Search Tree Constructor
             
             Parameters
             ----------
-            root=None: BinarySearchTreeNode
-                Root Node
+            root=None: element
+                Root element
         """
-        self.root = root
+        if root != None:
+            if node_class == None:
+                self.root = BinarySearchTreeNode(root)
+            else:
+                self.root = node_class(root)
+            self.length = 1
+        else:
+            self.root = None
+            self.length = 0
+        self.last_node_added = None
 
-    def insert(self, element):
+    def insert(self, element, node_class=None):
         """
             Insert an element in the Binary Search Tree
 
@@ -40,11 +51,15 @@ class BinarySearchTree:
             element : any type with comparable function
                 New element to insert in the Tree
         """
-        new_node = BinarySearchTreeNode(element)
+        if node_class == None:
+            new_node = BinarySearchTreeNode(element)
+        else:
+            new_node = node_class(element)
 
         # When there is no root in the tree
         if self.root == None:
             self.root = new_node
+            self.last_node_added = new_node
             return None
 
         # Go to a leaf
@@ -52,17 +67,20 @@ class BinarySearchTree:
         actual_node = self.root
         while actual_node != None:
             parent_node = actual_node
-            if element <= actual_node.getElement():
-                actual_node = actual_node.getLeft()
+            if element <= actual_node.get_element():
+                actual_node = actual_node.get_left()
             else:
-                actual_node = actual_node.getRight()
+                actual_node = actual_node.get_right()
 
         # We are already in a Leaf
-        new_node.setParent(parent_node)
-        if  element <= parent_node.getElement():
-            parent_node.setLeft(new_node)
+        new_node.set_parent(parent_node)
+        if  element <= parent_node.get_element():
+            parent_node.set_left(new_node)
         else:
-            parent_node.setRight(new_node)
+            parent_node.set_right(new_node)
+
+        self.last_node_added = new_node
+        self.length += 1
 
     def search(self, element):
         """
@@ -71,7 +89,7 @@ class BinarySearchTree:
             Parameters
             ----------
             element : any type with comparable function
-                New element to insert in the Tree.
+                Element to search in the Tree
 
             Returns
             -------
@@ -81,17 +99,17 @@ class BinarySearchTree:
         actual_node = self.root
         
         while actual_node != None:
-            if actual_node.getElement() == element:
+            if actual_node.get_element() == element:
                 return actual_node
 
-            if element < actual_node.getElement():
-                actual_node = actual_node.getLeft()
+            if element < actual_node.get_element():
+                actual_node = actual_node.get_left()
             else:
-                actual_node = actual_node.getRight()
+                actual_node = actual_node.get_right()
 
         return None
 
-    def maxInSubTree(self, node):
+    def max_in_sub_tree(self, node):
         """
             Gets the max element in the node subtree
 
@@ -105,14 +123,14 @@ class BinarySearchTree:
             BinarySearchTreeNode if the node is not None, None otherwise.
         """
         ni = node
-        while ni.hasRight():
-            ni = ni.getRight()
+        while ni.has_right():
+            ni = ni.get_right()
 
         return ni
 
-    def _removeLeaf(self, leaf):
+    def _remove_leaf(self, leaf):
         """
-            Private. Removes a Leaf
+            Protected. Removes a Leaf
 
             Parameters
             ----------
@@ -124,16 +142,16 @@ class BinarySearchTree:
         """
         if leaf.parent == None:
             self.root = None
-        elif leaf.isLeftChild():
-            leaf.getParent().left = None
+        elif leaf.is_left_child():
+            leaf.get_parent().left = None
         else:
-            leaf.getParent().right = None
+            leaf.get_parent().right = None
 
-        return leaf.getElement()
+        return leaf.get_element()
 
-    def _removeWithoutLeft(self, node):
+    def _remove_without_left(self, node):
         """
-            Private. Removes a node without left child.
+            Protected. Removes a node without left child.
 
             Parameters
             ----------
@@ -143,20 +161,20 @@ class BinarySearchTree:
             -------
             element : element of the Node removed
         """
-        right = node.getRight()
-        if node.getParent() == None:
+        right = node.get_right()
+        if node.get_parent() == None:
             self.root = right
-        elif node.isLeftChild():
-            node.getParent().setLeft(right)
+        elif node.is_left_child():
+            node.get_parent().set_left(right)
         else:
-            node.getParent().setRight(right)
-        right.setParent(node.getParent())
+            node.get_parent().set_right(right)
+        right.set_parent(node.get_parent())
 
-        return node.getElement()
+        return node.get_element()
 
-    def _removeWithoutRight(self, node):
+    def _remove_without_right(self, node):
         """
-            Private. Removes a node without right child.
+            Protected. Removes a node without right child.
 
             Parameters
             ----------
@@ -166,16 +184,16 @@ class BinarySearchTree:
             -------
             element : element of the Node removed
         """
-        left = node.getLeft()
-        if node.getParent() == None:
+        left = node.get_left()
+        if node.get_parent() == None:
             self.root = left
-        elif node.isLeftChild():
-            node.getParent().setLeft(left) 
+        elif node.is_left_child():
+            node.get_parent().set_left(left) 
         else:
-            node.getParent().setRight(left)
-        left.setParent(node.getParent())
+            node.get_parent().set_right(left)
+        left.set_parent(node.get_parent())
 
-        return node.getElement()
+        return node.get_element()
 
     def remove(self, element):
         """
@@ -190,57 +208,78 @@ class BinarySearchTree:
         if to_remove == None:
             return None
 
-        if to_remove.hasLeft():
+        if to_remove.has_left():
             vi = to_remove
-            to_remove = self.maxInSubTree(to_remove.getLeft())
-            vi.setElement(to_remove.getElement())
+            to_remove = self.max_in_sub_tree(to_remove.get_left())
+            vi.set_element(to_remove.get_element())
 
-        if not to_remove.hasLeft() and not to_remove.hasRight():
-            self._removeLeaf(to_remove)
-        elif not to_remove.hasLeft():
-            self._removeWithoutLeft(to_remove)
+        if not to_remove.has_left() and not to_remove.has_right():
+            self._remove_leaf(to_remove)
+        elif not to_remove.has_left():
+            self._remove_without_left(to_remove)
         else:
-            self._removeWithoutRight(to_remove)
+            self._remove_without_right(to_remove)
 
-    def rightRotation(self, node):
+        self.length -= 1
+
+    def _right_rotation(self, node):
         """
-            The subtree of the node to the right
+            Protected. The subtree of the node to the right
 
             Parameters
             ----------
             node : Binary Search Tree Node
         """
-        if not node.hasLeft():
+        if node == None:
             return None
 
-        left = node.getLeft()
-        if node.getParent() == None:
+        if not node.has_left():
+            return None
+
+        left = node.get_left()
+        if node.get_parent() == None:
             self.root = left
+        else:
+            if node.is_left_child():
+                node.get_parent().set_left(left)
+            else:
+                node.get_parent().set_right(left)
 
-        left.setParent(node.parent)
-        node.setLeft(left.getRight()) 
-        left.getRight().setParent(node)
-        left.setRight(node)
-        node.setParent(left)
+        left.set_parent(node.parent)
+        node.set_left(left.get_right()) 
+        if left.has_right():
+            left.get_right().set_parent(node)
+        left.set_right(node)
+        node.set_parent(left)
 
-    def leftRotation(self, node):
+    def _left_rotation(self, node):
         """
-            The subtree of the node to the left
+            Protected. The subtree of the node to the left
 
             Parameters
             ----------
             node : Binary Search Tree Node
         """
-        if not node.hasRight():
+        if node == None:
             return None
 
-        right = node.getRight()
-        if node.getParent() == None:
-            self.root = right
+        if not node.has_right():
+            return None
 
-        right.setParent(node.parent)
-        node.setRight(right.getLeft()) 
-        right.getLeft().setParent(node)
-        right.setLeft(node)
-        node.setParent(right)
+        right = node.get_right()
+
+        if node.get_parent() == None:
+            self.root = right
+        else:
+            if node.is_left_child():
+                node.get_parent().set_left(right)
+            else:
+                node.get_parent().set_right(right)
+
+        right.setparent(node.parent)
+        node.set_right(right.get_left()) 
+        if left.has_left():
+            right.get_left().set_parent(node)
+        right.set_left(node)
+        node.set_parent(right)
 
