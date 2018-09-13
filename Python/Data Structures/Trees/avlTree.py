@@ -159,6 +159,22 @@ class AVLTree(BinarySearchTree):
         new_node = self.last_node_added
         self.rebalance(new_node)
 
+    def search(self, element):
+        """
+            Search an element in the AVL Tree.
+
+            Parameters
+            ----------
+            element : any type with comparable function
+                Element to search in the Tree
+
+            Returns
+            -------
+            AVLNode if there is the searched element in the Tree, None
+            otherwise.
+        """
+        return super().search(element)
+
     def remove(self, element):
         """
             Removes the element given and rebalances the Tree if it is

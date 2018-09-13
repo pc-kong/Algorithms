@@ -89,7 +89,7 @@ class BinarySearchTree:
             Parameters
             ----------
             element : any type with comparable function
-                New element to insert in the Tree.
+                Element to search in the Tree
 
             Returns
             -------
