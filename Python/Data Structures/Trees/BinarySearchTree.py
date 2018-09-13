@@ -22,7 +22,7 @@ class BinarySearchTree:
         leftRotation(node)
     """
 
-    def __init__(self, root=None):
+    def __init__(self, root=None, nodeClass=None):
         """
             Binary Search Tree Constructor
             
@@ -32,9 +32,14 @@ class BinarySearchTree:
                 Root element
         """
         if root != None:
-            self.root = BinarySearchTreeNode(root)
+            if nodeClass == None:
+                self.root = BinarySearchTreeNode(root)
+            else:
+                self.root = nodeClass(root)
+            self.length = 1
         else:
             self.root = None
+            self.length = 0
         self.last_node_added = None
 
     def insert(self, element, nodeClass=None):
@@ -75,6 +80,7 @@ class BinarySearchTree:
             parent_node.setRight(new_node)
 
         self.last_node_added = new_node
+        self.length += 1
 
     def search(self, element):
         """
@@ -122,7 +128,7 @@ class BinarySearchTree:
 
         return ni
 
-    def __removeLeaf(self, leaf):
+    def _removeLeaf(self, leaf):
         """
             Private. Removes a Leaf
 
@@ -143,7 +149,7 @@ class BinarySearchTree:
 
         return leaf.getElement()
 
-    def __removeWithoutLeft(self, node):
+    def _removeWithoutLeft(self, node):
         """
             Private. Removes a node without left child.
 
@@ -166,7 +172,7 @@ class BinarySearchTree:
 
         return node.getElement()
 
-    def __removeWithoutRight(self, node):
+    def _removeWithoutRight(self, node):
         """
             Private. Removes a node without right child.
 
@@ -208,11 +214,13 @@ class BinarySearchTree:
             vi.setElement(to_remove.getElement())
 
         if not to_remove.hasLeft() and not to_remove.hasRight():
-            self.__removeLeaf(to_remove)
+            self._removeLeaf(to_remove)
         elif not to_remove.hasLeft():
-            self.__removeWithoutLeft(to_remove)
+            self._removeWithoutLeft(to_remove)
         else:
-            self.__removeWithoutRight(to_remove)
+            self._removeWithoutRight(to_remove)
+
+        self.length -= 1
 
     def rightRotation(self, node):
         """

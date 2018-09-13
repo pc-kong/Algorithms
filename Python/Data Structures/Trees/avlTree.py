@@ -109,7 +109,7 @@ class AVLTree(BinarySearchTree):
             root=None: element
                 Root element
         """
-        BinarySearchTree.__init__(self, root)
+        BinarySearchTree.__init__(self, root, self.AVLNode)
 
     def rebalance(self, node):
         """
@@ -158,4 +158,35 @@ class AVLTree(BinarySearchTree):
         super().insert(element, nodeClass=self.AVLNode)
         new_node = self.last_node_added
         self.rebalance(new_node)
+
+    def remove(self, element):
+        """
+            Removes the element given and rebalances the Tree if it is
+            necessary.
+
+            Parameters
+            ----------
+            element : element to remove in the tree
+        """
+
+        to_remove = self.search(element)
+
+        if to_remove == None:
+            return None
+
+        if to_remove.hasLeft():
+            vi = to_remove
+            to_remove = self.maxInSubTree(to_remove.getLeft())
+            vi.setElement(to_remove.getElement())
+
+        if not to_remove.hasLeft() and not to_remove.hasRight():
+            super()._removeLeaf(to_remove)
+        elif not to_remove.hasLeft():
+            super()._removeWithoutLeft(to_remove)
+        else:
+            super()._removeWithoutRight(to_remove)
+
+        self.length -= 1
+
+        self.rebalance(to_remove.parent)
 
