@@ -11,6 +11,20 @@ class AVLTree(BinarySearchTree):
         To see more information about AVL Trees read:
             https://en.wikipedia.org/wiki/AVL_tree
 
+        Attributes
+        ----------
+        root=None: AVLNode
+            Root Node.
+        last_node_added: AVLNode
+            Last node added in the Tree.
+        lenght: int
+            Number of elements in the tree.
+
+        Methods
+        -------
+        insert(element)
+        search(element)
+        remove(element)
     """
 
     class AVLNode(BinarySearchTreeNode):
@@ -128,19 +142,19 @@ class AVLTree(BinarySearchTree):
         if node.calculateBalance() == 2:
             if node.left.calculateBalance() == -1:
                 left = node.left
-                super().leftRotation(left)
+                super()._leftRotation(left)
                 left.calculateHeight()
                 left.parent.calculateHeight()
-            super().rightRotation(node)
+            super()._rightRotation(node)
             node.calculateHeight()
             return self.rebalance(node.parent.parent)
         if node.calculateBalance() == -2:
             if node.right.calculateBalance() == 1:
                 right = node.right
-                super().rightRotation(right)
+                super()._rightRotation(right)
                 right.calculateHeight()
                 right.parent.calculateHeight()
-            super().leftRotation(node)
+            super()._leftRotation(node)
             node.calculateHeight()
             return self.rebalance(node.parent.parent)
         

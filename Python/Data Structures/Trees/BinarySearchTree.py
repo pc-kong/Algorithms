@@ -12,14 +12,14 @@ class BinarySearchTree:
             Root Node
         last_node_added: BinarySearchTreeNode
             Last node added in the Tree
+        lenght: int
+            Number of elements in the tree.
 
         Methods
         -------
         insert(element)
         search(element)
         remove(element)
-        rightRotation(node)
-        leftRotation(node)
     """
 
     def __init__(self, root=None, nodeClass=None):
@@ -130,7 +130,7 @@ class BinarySearchTree:
 
     def _removeLeaf(self, leaf):
         """
-            Private. Removes a Leaf
+            Protected. Removes a Leaf
 
             Parameters
             ----------
@@ -151,7 +151,7 @@ class BinarySearchTree:
 
     def _removeWithoutLeft(self, node):
         """
-            Private. Removes a node without left child.
+            Protected. Removes a node without left child.
 
             Parameters
             ----------
@@ -174,7 +174,7 @@ class BinarySearchTree:
 
     def _removeWithoutRight(self, node):
         """
-            Private. Removes a node without right child.
+            Protected. Removes a node without right child.
 
             Parameters
             ----------
@@ -222,9 +222,9 @@ class BinarySearchTree:
 
         self.length -= 1
 
-    def rightRotation(self, node):
+    def _rightRotation(self, node):
         """
-            The subtree of the node to the right
+            Protected. The subtree of the node to the right
 
             Parameters
             ----------
@@ -252,9 +252,9 @@ class BinarySearchTree:
         left.setRight(node)
         node.setParent(left)
 
-    def leftRotation(self, node):
+    def _leftRotation(self, node):
         """
-            The subtree of the node to the left
+            Protected. The subtree of the node to the left
 
             Parameters
             ----------
