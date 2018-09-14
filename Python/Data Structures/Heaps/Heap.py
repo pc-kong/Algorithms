@@ -4,14 +4,15 @@ from HeapNode import HeapNode
 
 class Heap:
 
-    def __init__(self, is_min_heap = True, L = []):
+    def __init__(self, is_min_heap=True, L=[]):
         self.is_min_heap = is_min_heap
         self.tree = []
         if L != []:
             for x in L:
                 node_to_insert = HeapNode(x, len(self.tree))
                 self.tree.append(node_to_insert)
-            self._heapify_down()
+            for i in range((len(self.tree) - 1) // 2, -1, -1):
+                self._heapify_down(self.tree[i])
 
     def _swap(self, node_a, node_b):
         i = node_a.index
@@ -71,9 +72,28 @@ class Heap:
         else:
             self._swap(self.tree[0], self.tree[-1])
             removed_node = self.tree.pop()
-            self._heapify_down()
+            self._heapify_down(self.tree[0])
             return removed_node.element
+    
+    def remove(self, index):
+        self._swap(self.tree[index], self.tree[-1])
+        removed_node = self.tree.pop()
+        self._reorder(self.tree[index])
 
+    def _reorder(self, node):
+        if node == None:
+            return
+        if self.is_min_heap:
+            if not self._has_parent(node) or self._get_parent(node).element < node.element:
+                self._heapify_down(node)
+            else:
+                self._heapify_up(node)
+        else:
+            if not self._has_parent(node) or self._get_parent(node).element > node.element:
+                self.heapify_down(node)
+            else:
+                self._heapify_up(node)
+        
     def search(self, element):
         for node in self.tree:
             if node == None:
@@ -88,36 +108,35 @@ class Heap:
     def _heapify_up(self, node):
         current_node = node
         if self.is_min_heap:
-            while(self._has_parent(current_node) and self._get_parent(current_node).element > current_node.element):
+            if  self._has_parent(current_node) and self._get_parent(current_node).element > current_node.element:
+                parent = self._get_parent(current_node)
                 self._swap(self._get_parent(current_node), current_node)
-                current_node = self._get_parent(current_node)
+                self._heapify_up(parent)
         else:
-            while(self._has_parent(current_node) and self._get_parent(current_node).element < current_node.element):
+            if self._has_parent(current_node) and self._get_parent(current_node).element < current_node.element:
+                parent = self._get_parent(current_node)
                 self._swap(self._get_parent(current_node), current_node)
-                current_node = self._get_parent(current_node)
+                self._heapify_up(parent)
     
-    def _heapify_down(self):
-        current_node = self.tree[0]
+    def _heapify_down(self, node):
+        current_node = node
+        if current_node == None:
+            return
         if self.is_min_heap:
-            while(self._has_left_child(current_node)):
+            if self._has_left_child(current_node):
                 smaller_child = self._get_left_child(current_node)
-                if(self._has_right_child(current_node) and self._get_right_child(current_node).element < smaller_child.element):
+                if self._has_right_child(current_node) and self._get_right_child(current_node).element < smaller_child.element:
                     smaller_child = self._get_right_child(current_node)
-                if(current_node.element > smaller_child.element):
+                if current_node.element > smaller_child.element:
                     curr = smaller_child
                     self._swap(current_node, smaller_child)
-                    current_node = curr
-                    print("current node: ", current_node)
-                    print(self._has_left_child(current_node))
-                else:
-                    break
+                    self._heapify_down(curr)            
         else:
-            while(self._has_left_child(current_node)):
+            if self._has_left_child(current_node):
                 larger_child = self._get_left_child(current_node)
-                if(self._has_right_child(current_node) and self._get_right_child(current_node).element > larger_child.element):
+                if self._has_right_child(current_node) and self._get_right_child(current_node).element > larger_child.element:
                     larger_child = self._get_right_child(current_node)
-                if(current_node.element < larger_child.element):
+                if current_node.element < larger_child.element:
+                    curr = larger_child
                     self._swap(current_node, larger_child)
-                    current_node = larger_child
-                else:
-                    break
+                    self._heapify_down(curr)

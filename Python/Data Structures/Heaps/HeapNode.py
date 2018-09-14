@@ -7,7 +7,7 @@ class HeapNode:
         self.index = index
 
     def __str__(self):
-        return 'HeapNode(' + str(self.element) + ', ' + str(self.index) + ')'
+        return '(' + str(self.element) + ', ' + str(self.index) + ')'
 
     def __repr__(self):
         return str(self)
