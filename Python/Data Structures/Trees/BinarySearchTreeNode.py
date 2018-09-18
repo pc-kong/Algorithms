@@ -215,4 +215,3 @@ class BinarySearchTreeNode:
             return False
 
         return self.parent.right == self
-
