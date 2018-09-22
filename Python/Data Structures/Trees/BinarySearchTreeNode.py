@@ -13,13 +13,13 @@ class BinarySearchTreeNode:
 
         Methods
         -------
-        hasParent()
+        has_parent()
             returns True if there is a node parent, False otherwise
 
-        def hasLeft()
+        has_left()
             returns True if this node has a left node, False otherwise
 
-        def hasRight()
+        has_right()
             returns True if this node has a right node, False otherwise
     """
     
@@ -67,7 +67,7 @@ class BinarySearchTreeNode:
         return self.left == node.left and self.right == node.right
 
     # All getters and setters
-    def getElement(self):
+    def get_element(self):
         """
             Get the node element
             
@@ -78,7 +78,7 @@ class BinarySearchTreeNode:
         """
         return self.element
 
-    def setElement(self, element):
+    def set_element(self, element):
         """
             Set the node element
             
@@ -89,7 +89,7 @@ class BinarySearchTreeNode:
         """
         self.element = element
 
-    def getParent(self):
+    def get_parent(self):
         """
             Get the node element
             
@@ -100,7 +100,7 @@ class BinarySearchTreeNode:
         """
         return self.parent
 
-    def setParent(self, parent):
+    def set_parent(self, parent):
         """
             Set the parent node
             
@@ -111,7 +111,7 @@ class BinarySearchTreeNode:
         """
         self.parent = parent
 
-    def getLeft(self):
+    def get_left(self):
         """
             Get the node in left
             
@@ -122,7 +122,7 @@ class BinarySearchTreeNode:
         """
         return self.left
 
-    def setLeft(self, left):
+    def set_left(self, left):
         """
             Set the node in right
             
@@ -133,7 +133,7 @@ class BinarySearchTreeNode:
         """
         self.left = left
 
-    def getRight(self):
+    def get_right(self):
         """
             Get the node in right
             
@@ -144,7 +144,7 @@ class BinarySearchTreeNode:
         """
         return self.right
 
-    def setRight(self, right):
+    def set_right(self, right):
         """
             Set the node in right
             
@@ -155,7 +155,7 @@ class BinarySearchTreeNode:
         """
         self.right = right
 
-    def hasParent(self):
+    def has_parent(self):
         """
             Check if there is a parent
             
@@ -166,7 +166,7 @@ class BinarySearchTreeNode:
         """
         return self.parent != None
 
-    def hasLeft(self):
+    def has_left(self):
         """
             Check if there is a left node
             
@@ -177,7 +177,7 @@ class BinarySearchTreeNode:
         """
         return self.left != None
 
-    def hasRight(self):
+    def has_right(self):
         """
             Check if there is a right node
             
@@ -188,7 +188,7 @@ class BinarySearchTreeNode:
         """
         return self.right != None
 
-    def isLeftChild(self):
+    def is_left_child(self):
         """
             Check if this node is a left child.
 
@@ -202,7 +202,7 @@ class BinarySearchTreeNode:
 
         return self.parent.left == self
 
-    def isRightChild(self):
+    def is_right_child(self):
         """
             Check if this node is a right child.
 
