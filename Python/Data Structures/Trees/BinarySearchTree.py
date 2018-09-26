@@ -275,11 +275,9 @@ class BinarySearchTree:
                 node.get_parent().set_left(right)
             else:
                 node.get_parent().set_right(right)
-
         right.set_parent(node.parent)
         node.set_right(right.get_left()) 
         if right.has_left():
             right.get_left().set_parent(node)
         right.set_left(node)
         node.set_parent(right)
-
