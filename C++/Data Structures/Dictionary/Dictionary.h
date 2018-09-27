@@ -1,5 +1,5 @@
-#ifndef DICTIONARY_H
-#define DICTIONARY_H
+#ifndef PCKONG_ALGORITHMS_DS_DICTIONARY_H
+#define PCKONG_ALGORITHMS_DS_DICTIONARY_H
 
 #include <memory>
 #include <vector>
@@ -18,21 +18,25 @@ class Dictionary{
   using KeyValue = pair<K,T>;
   
   static size_t base_size;
+  static size_t w;
+  
   size_t table_size;
   size_t object_count;
-  unique_ptr<vector<KeyValue>> current_table;
-  unique_ptr<vector<KeyValue>> shadow_table;
+  size_t dimension;
+  unique_ptr<vector<KeyValue>[]> current_table;
+  unique_ptr<vector<KeyValue>[]> shadow_table;
 
-  size_t hash(const K& key);
+  size_t hash(const K&, int);
+  void addToTable(unique_ptr<vector<KeyValue>[]>&, KeyValue, size_t hash);
   void resize();
 
 public:
   Dictionary();
-  bool add(K key, T value);
-  bool erase(const K& key);
-  T* get(const K& key);
+  bool add(K, T);
+  bool erase(const K&);
+  T* get(const K&);
 };
 
 };
 
-#endif // DICTIONARY_H
+#endif // PCKONG_ALGORITHMS_DS_DICTIONARY_H
