@@ -1,7 +1,25 @@
-template <class T> 
+/*
+ * It's easier to not add the const modifier to root(), find(), and lastAdded()
+ * and trusting the user not to break the semantics of the tree.
+ * Adding it causes problems with public methods that receive a BinaryTreeNode
+ * and must modify it.
+ * Pointers are used instead of references to make use of nullptr. A user must
+ * first check if the result returned by root() or parent() is nullptr before
+ * attempting to use it.
+ */
+
+/*
+ * Constructs an empty BinaryTree with 0 elements, null root and null lastAdded.
+ */
+template <class T>
 BinaryTree<T>::BinaryTree() : 
 nRoot(nullptr), nLastAdded(nullptr), numElements(0) {}
 
+/*
+ * The destructor of a BinaryTree calls delete on the root.
+ * The destructor of BinaryTree::Node calls delete on its children.
+ * Therefore, this destructor will reclaim memory used by every node in this tree.
+ */
 template <class T> 
 BinaryTree<T>::~BinaryTree() 
 { 
@@ -9,22 +27,25 @@ BinaryTree<T>::~BinaryTree()
 }
 
 template <class T>
-bool BinaryTree<T>::contains(const T& element) 
+bool BinaryTree<T>::contains(const T & element)
 {
 	return findNode(nRoot, element);
 }
 
+/*
+ * The result of this function depends on BinaryTree::Node's == operator.
+ */
 template <class T>
-bool BinaryTree<T>::operator ==(const BinaryTree& other) 
+bool BinaryTree<T>::operator ==(const BinaryTree & other)
 {
-	if (!this->nRoot && !other.nRoot)
+	if (!nRoot && !other.nRoot)
 	{
 		return true;
 	}		
 
-	if (this->nRoot && other.nRoot)
+	if (nRoot && other.nRoot)
 	{
-		return this->nRoot == other.nRoot;
+		return nRoot == other.nRoot;
 	}
 
 	return false;
@@ -137,6 +158,9 @@ bool BinaryTree<T>::Node::operator ==(const Node& other)
 	return leftSubtreesEqual && rightSubtreesEqual;
 }
 
+/*
+ * Allocates memory for a new node on the heap.
+ */
 template <class T>
 typename BinaryTree<T>::Node * BinaryTree<T>::createNode(const T& val) 
 {
