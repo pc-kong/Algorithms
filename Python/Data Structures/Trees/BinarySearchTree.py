@@ -1,6 +1,6 @@
 """ Binary Search Tree """
 
-from binarySearchTreeNode import BinarySearchTreeNode
+from BinarySearchTreeNode import BinarySearchTreeNode
 
 class BinarySearchTree:
     """
@@ -276,9 +276,9 @@ class BinarySearchTree:
             else:
                 node.get_parent().set_right(right)
 
-        right.setparent(node.parent)
+        right.set_parent(node.parent)
         node.set_right(right.get_left()) 
-        if left.has_left():
+        if right.has_left():
             right.get_left().set_parent(node)
         right.set_left(node)
         node.set_parent(right)
